@@ -2,32 +2,27 @@
 
 {% block content %}
 
+<script src="../static/scripts/bookscr.js"></script>
+
 <div class="jumbotron">
-    <h1>Flask</h1>
-    <p class="lead">Flask is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://flask.pocoo.org/" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
+    <h1>FlaskLib</h1>
+    <p class="lead">FlaskLib is an application to manage information about books and writers.</p>
+    <p><a href="{{ url_for('about') }}" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            Flask gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://flask.pocoo.org/docs/">Learn more &raquo;</a></p>
+<div class="bookshelf">
+    {% for book in books %}
+    <div class="book" id="b{{ book.id }}">
+        <h3>{{book.title}}</h3>
     </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>The Python Package Index is a repository of software for the Python programming language.</p>
-        <p><a class="btn btn-default" href="https://pypi.python.org/pypi">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Microsoft Azure</h2>
-        <p>You can easily publish to Microsoft Azure using Python Tools for Visual Studio. Find out how you can host your application using a free trial today.</p>
-        <p><a class="btn btn-default" href="http://azure.microsoft.com">Learn more &raquo;</a></p>
-    </div>
+    {% endfor %} 
+    <a href="{{ url_for('add_book') }}">
+        <div class="book" id="add">
+            <span class="glyphicon glyphicon-plus" style="margin-top: 50px"></span> 
+            <h2>Add</h2>
+        </div>
+    </a>
 </div>
+
 
 {% endblock %}

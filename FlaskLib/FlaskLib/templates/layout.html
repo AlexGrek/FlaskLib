@@ -6,7 +6,9 @@
     <title>Page - My Flask Application</title>
     <link rel="stylesheet" type="text/css" href="/static/content/bootstrap.min.css" />
     <link rel="stylesheet" type="text/css" href="/static/content/site.css" />
+    <link rel="stylesheet" type="text/css" href="/static/content/loading.css" />
     <script src="/static/scripts/modernizr-2.6.2.js"></script>
+    <script src="/static/scripts/jquery-1.10.2.js"></script>
 </head>
 
 <body>
@@ -18,25 +20,43 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a href="/" class="navbar-brand">Application name</a>
+                <a href="/" class="navbar-brand">FlaskLib</a>
             </div>
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ url_for('home') }}">Home</a></li>
+                    <li><a href="{{ url_for('home') }}">Bookshelf</a></li>
+                    <li><a href="{{ url_for('writers') }}">Writers</a></li>
                     <li><a href="{{ url_for('about') }}">About</a></li>
                     <li><a href="{{ url_for('contact') }}">Contact</a></li>
+                    {% if user is none or not user.is_authenticated %}
                     <li><a href="{{url_for('login') }}">Log In</a></li>
+                    <li><a href="{{url_for('register') }}">Register</a></li>
+                    {% else %}
+                    <li><a href="{{url_for('logout') }}">Log out</a></li>
+                    <li>Logged in as {{user.name}}</li>
+                    {% endif %}
                 </ul>
             </div>
         </div>
+
     </div>
+
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    <ul class="alert alert-info">
+        {% for message in messages %}
+        <div class="message_flash">{{ message }}</div>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    {% endwith %}
 
     <div class="container body-content">
         {% block content %}{% endblock %}
         <hr />
     </div>
 
-    <script src="/static/scripts/jquery-1.10.2.js"></script>
+    
     <script src="/static/scripts/bootstrap.js"></script>
     <script src="/static/scripts/respond.js"></script>
     {% block scripts %}{% endblock %}

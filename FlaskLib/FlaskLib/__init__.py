@@ -15,9 +15,14 @@ app.config.from_object('config')
 
 
 lm = LoginManager()
+lm.login_view = 'login'
 lm.init_app(app)
+
+
 oid = OpenID(app, 'tmp')
 
-db = SQLAlchemy(app)
+dbx = SQLAlchemy(app)
+
+print dbx
 
 import FlaskLib.views

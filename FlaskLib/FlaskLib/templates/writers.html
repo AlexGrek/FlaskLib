@@ -1,0 +1,26 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<script src="../static/scripts/bookscr.js"></script>
+
+<div class="bookshelf">
+    {% for writer in writers %}
+    <div class="writer">
+        <header>
+        <h2> {{writer.name}} </h2>
+        <div class="hkeys">
+            <a href="{{url_for('remove_writer')}}?id={{ writer.id }}"><span class="glyphicon glyphicon-trash"></span></a>
+            <a href="{{url_for('edit_writer')}}?id={{ writer.id }}"><span class="glyphicon glyphicon-edit"></span></a>
+        </div>
+            </header>
+        {% for book in writer.children %}
+        <div class="book" id="b{{ book.id }}">
+            <h3>{{book.title}}</h3>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %} 
+</div>
+
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<script src="../static/scripts/formscr.js"></script>
+
+{% if form.errors %}
+<div class="alert alert-warning">
+    <b>Incorrect fields:</b>
+    <ul>{% for error in form.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+
+<form method="POST" action="/add_book" class="form-group" id="form">
+    {{ form.hidden_tag() }}
+    {{ form.title.label }} {{ form.title(size=20, class_ = 'form-control') }}
+    {{ form.writers.label }} {{ form.writers(size=20, class_ = 'form-control') }}
+    <div id="suggestions" class="list-group"></div>
+    <input type="submit" value="Go" class="btn btn-default" id="submit">
+</form>
+
+<script>
+    function suggested(el) {
+        var was = $('#writers').val()
+        if (was.length > 0 && !was.endsWith(', '))
+            if (was.endsWith(','))
+                was = was + ' '
+            else
+                was = was + ', ';
+        $('#writers').val(was + el)
+    }
+
+    $(window).load(function () {
+        $.getJSON("/all_authors", function (data, status) {
+            var object;
+            data['authors'].forEach(function(entry) {
+                object = $("<a href=\"#\" class=\"list-group-item\">" + entry + "</a>")
+                $('#suggestions').append(object)
+                object.bind('click', function () { suggested(entry) })
+            });
+            
+        });
+    });
+</script>
+
+{% endblock %}

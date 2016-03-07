@@ -34,6 +34,9 @@
     <Compile Include="config.py">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="create_database.py">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="FlaskLib\dbase.py">
       <SubType>Code</SubType>
     </Compile>
@@ -41,6 +44,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="FlaskLib\models.py">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="migrate_db.py">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="runserver.py" />
@@ -57,7 +63,17 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="libtoprom.pubxml" />
+    <Content Include="app.dbx" />
+    <Content Include="FlaskLib\static\content\loading.css" />
+    <Content Include="FlaskLib\static\scripts\bookscr.js" />
+    <Content Include="FlaskLib\static\scripts\formscr.js" />
+    <Content Include="FlaskLib\templates\edit_writer.html" />
+    <Content Include="FlaskLib\templates\edit_book.html" />
+    <Content Include="FlaskLib\templates\add_book.html" />
+    <Content Include="FlaskLib\templates\writers.html" />
+    <Content Include="FlaskLib\templates\register.html" />
     <Content Include="FlaskLib\templates\login.html" />
+    <Content Include="venv.bat" />
     <Content Include="requirements.txt" />
     <Content Include="FlaskLib\static\content\bootstrap.css" />
     <Content Include="FlaskLib\static\content\bootstrap.min.css" />

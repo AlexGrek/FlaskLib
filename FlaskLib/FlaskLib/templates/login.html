@@ -2,11 +2,30 @@
 
 {% block content %}
 
-<form method="POST" action="/login">
+{% if form.errors %}
+<div class="alert alert-warning">
+    <b>Incorrect fields:</b>
+    <ul>{% for error in form.errors %}<li>{{ error }}</li>{% endfor %}</ul>
+</div>
+{% endif %}
+
+<form method="POST" action="/login" class="form-group" id="form">
     {{ form.hidden_tag() }}
-    {{ form.username.label }} {{ form.username(size=20) }}
-    {{ form.password }}
-    <input type="submit" value="Go">
+    {{ form.username.label }} {{ form.username(size=20, class_ = 'form-control') }}
+    {{ form.password.label }} {{ form.password(size=20, class_ = 'form-control') }}
+    <input type="submit" value="Go" class="btn btn-default" id="submit">
 </form>
+
+<script>
+    $(window).load(function () {
+        $('#submit').bind('click', function () { submit_click() });
+
+        function submit_click(elem) {
+            /*loading thing */
+            $("#submit").hide();
+            $("#form").append("<div id=\"cssload-loader\"><ul><li></li><li></li><li></li><li></li><li></li><li></li></ul></div>")
+        }
+    });
+</script>
 
 {% endblock %}
