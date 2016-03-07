@@ -10,6 +10,19 @@
     <p><a href="{{ url_for('about') }}" class="btn btn-primary btn-large">Learn more &raquo;</a></p>
 </div>
 
+<aside class="searchprompt">
+                <form class="input-group stylish-input-group" action="/search" method="get">
+                    <input type="text" class="form-control" placeholder="Search" name="q">
+                    <span class="input-group-addon">
+                        <button type="submit">
+                            <span class="glyphicon glyphicon-search"></span>
+                        </button>
+                    </span>
+                </form>
+</aside>
+
+<h2>Bookshelf</h2>
+
 <div class="bookshelf">
     {% for book in books %}
     <div class="book" id="b{{ book.id }}">

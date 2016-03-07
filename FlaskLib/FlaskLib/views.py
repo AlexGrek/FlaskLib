@@ -48,17 +48,16 @@ def login():
     form = LoginForm()
     if form.validate_on_submit():
         passwd = get_passwd_hash(form.password.data)
-        print 'user', form.username.data, 'is trying to log in with pass: ', passwd
         user = User.query.filter_by(name = form.username.data, password = passwd).first()
         if user is not None:
             login_user(user)
             print 'user', user.name, 'succesfully logged in'
-            flash('Logged in successfully.')
+            flash('Logged in as ' + user.name)
             next = request.args.get('next')
                 # next_is_valid should check if the user has valid
                 # permission to access the `next` url
-
-            return redirect(url_for(next or 'home'))
+            print next
+            return redirect(next or url_for('home'))
         else:
             flash('wrong user/password')
     return render_template('login.html', form=form, user = current_user)
@@ -67,6 +66,24 @@ def login():
 def logout():
     logout_user()
     return redirect(url_for('home'))
+
+
+@app.route('/search')
+def search():
+    raw_q = request.args['q']
+    #get rid of bad characters...
+    q = raw_q.replace('_', '1').replace('%', '2').replace('?', '3').replace('*', '4')
+    #search in books
+    books = Book.query.filter(Book.title.ilike('%{0}%'.format(q))).all()
+    #search in authors
+    writers = Writer.query.filter(Writer.name.ilike('%{0}%'.format(q))).all()
+    return render_template(
+        'search.html',
+        books = books,
+        writers = writers,
+        q = q,
+        user = current_user
+    )
 
 
 @app.route('/register', methods=['GET', 'POST'])

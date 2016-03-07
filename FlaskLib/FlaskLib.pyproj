@@ -70,6 +70,7 @@
     <Content Include="FlaskLib\templates\edit_writer.html" />
     <Content Include="FlaskLib\templates\edit_book.html" />
     <Content Include="FlaskLib\templates\add_book.html" />
+    <Content Include="FlaskLib\templates\search.html" />
     <Content Include="FlaskLib\templates\writers.html" />
     <Content Include="FlaskLib\templates\register.html" />
     <Content Include="FlaskLib\templates\login.html" />

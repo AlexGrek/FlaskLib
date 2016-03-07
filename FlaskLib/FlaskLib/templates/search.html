@@ -1,0 +1,59 @@
+{% extends "layout.html" %}
+
+{% block content %}
+
+<script src="../static/scripts/bookscr.js"></script>
+
+<aside class="searchprompt">
+    <form class="input-group stylish-input-group" action="/search" method="get">
+        <input type="text" class="form-control" placeholder="Search" name="q">
+        <span class="input-group-addon">
+            <button type="submit">
+                <span class="glyphicon glyphicon-search"></span>
+            </button>
+        </span>
+    </form>
+</aside>
+
+<h1>Search results for "{{ q }}" </h1>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Books</div>
+    <div class="panel-body">
+
+
+        <div class="bookshelf">
+            {% for book in books %}
+            <div class="book" id="b{{ book.id }}">
+                <h3>{{book.title}}</h3>
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+<div class="panel panel-default">
+    <div class="panel-heading">Writers</div>
+    <div class="panel-body">
+
+        <div class="bookshelf">
+            {% for writer in writers %}
+            <div class="writer">
+                <header>
+                    <h4> {{writer.name}} </h4>
+                </header>
+                {% for book in writer.children %}
+                <div class="book" id="b{{ book.id }}">
+                    <h3>{{book.title}}</h3>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+
+    </div>
+</div>
+
+
+{% endblock %}
