@@ -4,6 +4,12 @@
 
 <script src="../static/scripts/bookscr.js"></script>
 
+<p class="tools">
+    <a href="{{url_for('add_writer')}}" class="btn btn-info btn-lg">
+        <span class="glyphicon glyphicon-plus"></span> Add
+    </a>
+</p>
+
 <div class="bookshelf">
     {% for writer in writers %}
     <div class="writer">

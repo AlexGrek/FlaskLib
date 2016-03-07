@@ -11,7 +11,7 @@
 </div>
 {% endif %}
 
-<form method="POST" action="/add_book" class="form-group" id="form">
+<form method="POST" class="form-group" id="form">
     {{ form.hidden_tag() }}
     {{ form.title.label }} {{ form.title(size=20, class_ = 'form-control') }}
     {{ form.writers.label }} {{ form.writers(size=20, class_ = 'form-control') }}

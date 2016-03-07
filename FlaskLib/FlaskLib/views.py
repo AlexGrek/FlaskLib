@@ -70,7 +70,7 @@ def logout():
 
 @app.route('/search')
 def search():
-    raw_q = request.args['q']
+    raw_q = request.args['q'] 
     #get rid of bad characters...
     q = raw_q.replace('_', '1').replace('%', '2').replace('?', '3').replace('*', '4')
     #search in books
@@ -156,6 +156,7 @@ def remove_writer():
     dbx.session.commit()
     return redirect(url_for('writers'))
 
+
 @app.route('/add_book', methods=['GET', 'POST'])
 @login_required
 def add_book():
@@ -176,6 +177,23 @@ def add_book():
         id = book.id
         return redirect(url_for('home'))
     return render_template('add_book.html', form=form, user = current_user)
+
+
+@app.route('/add_writer', methods=['GET', 'POST'])
+@login_required
+def add_writer():
+    form = WriterForm()
+    if form.validate_on_submit():
+        w = Writer.query.filter_by(name = form.name.data.strip()).first()
+        if w is not None:
+                flash('Writer with name "%s" already exists' % form.name.data)
+                return render_template('edit_writer.html', form=form, user = current_user)
+
+        wr = Writer(name = form.name.data.strip())
+        dbx.session.add(wr)
+        dbx.session.commit()
+        return redirect(url_for('writers'))
+    return render_template('edit_writer.html', form=form, user = current_user)
 
 @app.route('/edit_book', methods=['GET', 'POST'])
 @login_required
@@ -210,7 +228,7 @@ def edit_book():
             dbx.session.commit()
             print book
             return redirect(url_for('home'))
-    return render_template('edit_book.html', form=form, user = current_user)
+    return render_template('add_book.html', form=form, user = current_user)
 
 @app.route('/edit_writer', methods=['GET', 'POST'])
 @login_required
