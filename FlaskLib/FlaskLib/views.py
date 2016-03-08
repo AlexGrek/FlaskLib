@@ -5,7 +5,7 @@ Routes and views for the flask application.
 from datetime import datetime
 import encodings
 from flask import render_template, flash, request, abort, redirect, url_for, jsonify
-from FlaskLib import app, dbx, lm, oid
+from FlaskLib import app, dbx, lm
 from forms import *
 from models import *
 from flask.ext.login import login_user, logout_user, current_user, login_required
@@ -21,22 +21,22 @@ def load_user(id):
 @app.route('/')
 @app.route('/home')
 def home():
-    """Renders the home page."""
+    """Renders the home page with book list"""
     bookz = Book.query.all()
     return render_template(
         'index.html',
-        title='Home Page', user = current_user,
+        user = current_user,
         books = bookz
     )
 
 @app.route('/')
 @app.route('/writers')
 def writers():
-    """Renders the home page."""
+    """Renders the writers page."""
     wrs = Writer.query.all()
     return render_template(
         'writers.html',
-        title='Writers', user = current_user,
+        user = current_user,
         writers = wrs
     )
 
@@ -51,12 +51,9 @@ def login():
         user = User.query.filter_by(name = form.username.data, password = passwd).first()
         if user is not None:
             login_user(user)
-            print 'user', user.name, 'succesfully logged in'
+            print 'user', user.name, 'succesfully logged in' #we should know
             flash('Logged in as ' + user.name)
             next = request.args.get('next')
-                # next_is_valid should check if the user has valid
-                # permission to access the `next` url
-            print next
             return redirect(next or url_for('home'))
         else:
             flash('wrong user/password')
@@ -70,6 +67,7 @@ def logout():
 
 @app.route('/search')
 def search():
+    """renders the search results page"""
     raw_q = request.args['q'] 
     #get rid of bad characters...
     q = raw_q.replace('_', '1').replace('%', '2').replace('?', '3').replace('*', '4')
@@ -90,6 +88,7 @@ def search():
 def register():
     form = RegistrationForm()
     if form.validate_on_submit():
+        #make sure username is unique
         userWithUrLogin = User.query.filter_by(name = form.username.data).first()
         if userWithUrLogin is not None:
             flash('user with this name is already registered')
@@ -119,9 +118,7 @@ def about():
     """Renders the about page."""
     return render_template(
         'about.html',
-        title='About',
-        year=datetime.now().year,
-        message='Your application description page.', user = current_user
+        user = current_user
     )
 
 @app.route('/get_authors')
@@ -154,6 +151,7 @@ def remove_writer():
         return redirect(url_for('writers'))
     dbx.session.delete(wr)
     dbx.session.commit()
+    flash('Writer deleted')
     return redirect(url_for('writers'))
 
 
@@ -164,9 +162,11 @@ def add_book():
     if form.validate_on_submit():
         book = Book(title = form.title.data)
         writers = form.writers.data.split(",")
+        #add writers to book
         for wr in writers:
             him = Writer.query.filter_by(name = wr.strip()).first()
             if him is None:
+                #create new writer, if doesn't exist
                 him = Writer(wr.strip())
                 dbx.session.add(him)
             if him not in book.writers:
@@ -184,6 +184,7 @@ def add_book():
 def add_writer():
     form = WriterForm()
     if form.validate_on_submit():
+        #make sure the name is unique
         w = Writer.query.filter_by(name = form.name.data.strip()).first()
         if w is not None:
                 flash('Writer with name "%s" already exists' % form.name.data)
@@ -258,6 +259,7 @@ def edit_writer():
 
 @app.route('/all_authors')
 def get_all_authors_json():
+    """obviously, returns all writers as JSON"""
     writers = Writer.query.all()
     author_names = [author.name for author in writers]
     return jsonify({'authors': author_names})

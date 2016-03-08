@@ -1,11 +1,12 @@
 import hashlib, binascii
-
 from FlaskLib import dbx
 from flask.ext.login import UserMixin
 
 def get_passwd_hash(passwd):
+    """hash function for security, returns salty hash of user password"""
     dk = hashlib.pbkdf2_hmac('sha256', passwd, b'salt', 10)
     return binascii.hexlify(dk)
+
 
 association_table = dbx.Table('association', dbx.metadata,
     dbx.Column('left_id', dbx.Integer, dbx.ForeignKey('writers.id')),

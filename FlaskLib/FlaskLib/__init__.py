@@ -6,7 +6,6 @@ from flask import Flask
 from flask.ext.sqlalchemy import SQLAlchemy
 import os
 from flask.ext.login import LoginManager
-from flask.ext.openid import OpenID
 
 
 app = Flask(__name__)
@@ -19,10 +18,8 @@ lm.login_view = 'login'
 lm.init_app(app)
 
 
-oid = OpenID(app, 'tmp')
-
 dbx = SQLAlchemy(app)
 
-print dbx
+print dbx #to know where our database is
 
 import FlaskLib.views

@@ -2,12 +2,39 @@
 
 {% block content %}
 
-<h2>{{ title }}.</h2>
-<h3>{{ message }}</h3>
+<h2>FlaskLib</h2>
+<h3>Test project</h3>
 
-<p>Use this area to provide additional information.</p>
+<p>This application allows users to manage information about books and writers. 
+    List of all books can be found on the <a href="{{ url_for('home') }}">Bookshelf</a> tab. 
+    Information about authors is available on click. List of all writers and their books can be found on the
+    <a href="{{ url_for('writers') }}">Writers</a> tab.
+</p>
 
+<h3>Features</h3>
+<ul>
+    <li>Design was created using Bootstrap and Visual Studio web app template</li>
+    <li>Only logged in users can edit and delete items</li>
+    <li>Information about book authors is loading using the standart AJAX functions from jQuery</li>
+    <li>Security: password hashes are stored in database instead of passwords</li>
+    <li>Cool loading animation makes design a bit more responsive</li>
+    <li>Easy books adding: one input field for writers, suggestions</li>
+    <li>Unexistent writers are automatically created from input field in book edit menu</li>
+    <li>User data is validated using WTForms validators</li>
+    <li>Case-insensitive <a href="{{ url_for('home') }}">search</a>, results from books and authors</li>
+</ul>
 
+<h3>Things used</h3>
+<ul>
+    <li>Flask</li>
+    <li>Flask-login</li>
+    <li>SQLAlchemy</li>
+    <li>WTForms</li>
+    <li>SQlite database inside the application</li>
+    <li>jQuery</li>
+    <li>Bootstrap</li>
+</ul>
+ 
 <address>
     <strong>GitHub:</strong>   <a href="https://github.com/AlexGrek/FlaskLib">AlexGrek/FlaskLib</a><br />
     <strong>Azure:</strong> <a href="http://libtoprom.azurewebsites.net/">libtoprom.azurewebsites.net</a>
